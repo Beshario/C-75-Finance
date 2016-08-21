@@ -1,0 +1,15 @@
+@charset "UTF-8";
+input {
+	background-color:#7A7777;
+	
+}
+
+.form-control{
+	background-color: #000000;
+	color: #FFFFFF;
+	border-bottom: thin solid #FFFFFF;
+	outline: none;
+	border-top-width: 0px;
+	border-right-width: 0px;
+	border-left-width: 0px;
+}
