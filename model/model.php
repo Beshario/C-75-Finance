@@ -4,7 +4,7 @@
  *
  * CSCI S-75
  * Project 1
- * Chris Gerber
+ * Beshari Jamal
  *
  * Model for users and portfolios
  *********************************/
@@ -25,13 +25,15 @@ define('DB_DATABASE', 'cs75finance');
 function opencon(){
     $dsn = 'mysql:host='.DB_HOST.';dbname='.DB_DATABASE;
     $dbh = new PDO($dsn, DB_USER, DB_PASSWORD);
+    var_dump($dbh);
     return dbh;
 }
+
 function login_user($email, $password)
 {
 	// prepare email address and password hash for safe query
 	$email = mysql_escape_string($email);
-	$pwdhash = hash("SHA1",$password);
+	$pwdhash = $password;
 	
 	// connect to database with mysql_
 	$connection = mysql_connect(DB_HOST,DB_USER,DB_PASSWORD);
@@ -39,7 +41,7 @@ function login_user($email, $password)
 	
 	// verify email and password pair
 	$userid = 0;
-	$query = sprintf("SELECT id FROM users WHERE LOWER(email)='%s' AND passwordhash='%s'",strtolower($email),$pwdhash);
+	$query = sprintf("SELECT ID FROM userid WHERE LOWER(EMAIL)='%s' AND PASSHASH='%s'",strtolower($email),$pwdhash);
 	$resource = mysql_query($query);
 	if ($resource)
 	{
@@ -109,23 +111,23 @@ function get_quote_data($symbol)
  * 
  * @return string $error
  */
-function register_user($fnmae, $lname, $email, $password, &$error)
+function register_user($fname, $lname, $email, $pwdhash)
 {
     //if it exists (write code)
-   $dbh = opencon();
-   $add = $dbh->prepare('INSERT INTO userid ( FNAME, LNAME, EMAIL,           QUANTITY, PASSHASH)]  
-                VALUES (:fname, :lname, :em, :qnty, :pass;)
-                ');
-    $add->bindValue(':fname', $fname);
-    $add->bindValue(':lname', $lname);
-    $add->bindValue(':em', $email);
-    $add->bindValue(':pass', $password);
-    $add->bindValue(':qnty', '10000'); //first free money to trade
-    $add->execute();
-    // pass to login with parameters
+   require('opencon.php');
+   echo "<br> checking for connection: "; var_dump($dbh);
+   $add = $dbh->prepare("INSERT INTO userid (FNAME , LNAME , EMAIL ,  QUANTITY , PASSHASH ) VALUES (:fname,:lname,:em,'10000',:pass)");
+    $add->bindParam(':fname', $fname);
+    $add->bindParam(':lname', $lname);
+    $add->bindParam(':em', $email);
+    $add->bindParam(':pass', $pwdhash);
+    echo "<br>   name: "; var_dump($dbh);
+    $result=$add->execute();
+    //echo "<br> in register function: "; var_dump($result);
+
+    $dbh=null;
+    return result;
     
-    //$error = 'Your account could not be registered. Did you forget your password?';
-    return false;
 }
 
 

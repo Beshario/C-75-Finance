@@ -1,6 +1,6 @@
 <?php
 require_once('../includes/helper.php');
-render('header', array('title' => 'C$75 Finance'));
+render('header', array('title' => 'C$75 Marketplace'));
 ?>
 
 
@@ -8,24 +8,27 @@ render('header', array('title' => 'C$75 Finance'));
 <div style="max-width:1200px; align-content:center">
   <div class="row">
     <div class="col-xs-12 col-sm-offset-6 col-sm-6 col-md-5 col-md-offset-7 col-lg-4 col-lg-offset-8">
-      <form action="register" method="get" action="index.php?page=register"> //onsubmit...
+        
+      <form method="POST" action="index.php?page=register" id="register">
+          <!--//onsubmit java script function... -->
         <div class="form-group">
           
           <label>First Name</label>
           <input type="text" class="form-control" name="fname" placeholder="Enter First Name">
           
           <label >Last Name</label>
-          <input type="text" class="form-control" name="lname" aria-describedby="emailHelp" placeholder="Enter Last Name">
+          <input type="text" class="form-control" name="lname" aria-describedby="lnameHelp" placeholder="Enter Last Name">
           
           <label> Email Address</label>
-          <input type="email" class="form-control" name="email" aria-describedby="emailHelp" placeholder="Enter email">
+          <input type="email" class="form-control" name="Email" aria-describedby="emailHelp" placeholder="Enter email">
           
           <label> Password</label>
-          <input type="password" class="form-control" name="password" aria-describedby="emailHelp" placeholder="Password">
+          <input type="password" class="form-control" name="password" aria-describedby="PasswordHelp" placeholder="Password">
           <br>
             <button type="submit" class="btn btn-primary" value="Submit">Register</button>
         </div>
       </form>
+        
     </div>
   </div>
 </div>
