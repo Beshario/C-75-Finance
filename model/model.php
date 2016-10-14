@@ -50,8 +50,8 @@ function login_user($email, $password)
         {
             print_r($row);
 			$userid = $row[0];
-            $_SESSION['fname']=$row[2];
-            $_SESSION['lname']=$row[3];
+            $_SESSION['fname']=$row[1];
+            $_SESSION['lname']=$row[2];
             $_SESSION['wallet']=$row[4];
             
         }
@@ -70,13 +70,13 @@ function login_user($email, $password)
  
 function get_user_shares($userid)
 {
-	// connect to database with PDO
-	require('opencon.php');
-	
-	// get user's portfolio
-	$stmt = $dbh->prepare("SELECT ID, SYMBOL, QTY, PP FROM Stock WHERE USER_ID=:userid");
+    try {   //if it exists (write code)
+    require('opencon.php');
+    $stmt = $dbh->prepare("SELECT ID, SYMBOL, QTY, PP FROM Stock WHERE USER_ID=:userid");
 	$stmt->bindValue(':userid', $userid, PDO::PARAM_STR);
-	if ($stmt->execute())
+    $pass=$stmt->execute();
+    //echo $pass.'<br>';
+	if ($pass)
 	{
 	    $result = array();
 	    while ($row = $stmt->fetch()) {
@@ -86,11 +86,14 @@ function get_user_shares($userid)
         //print_r($result);
 		return $result;
 	}
-	
-	// close database and return null 
-	$dbh = null;
-	return null;
+    }
+    catch (PDOException $e) {
+    print "Error!: " . $e->getMessage() . "<br/>";
+    die();
+    }
 }
+    
+
 
 /*
  * get_quote_data() - Get Yahoo quote data for a symbol
@@ -121,7 +124,7 @@ function get_quote_data($symbol)
  */
 function register_user($fname, $lname, $email, $pwdhash)
 {
-    //if it exists (write code)
+   try {   //if it exists (write code)
    require('opencon.php');
    //echo "<br> checking for connection: "; var_dump($dbh);
    $add = $dbh->prepare("INSERT INTO userid (FNAME , LNAME , EMAIL ,  QUANTITY , PASSHASH ) VALUES (:fname,:lname,:em,'10000',:pass)");
@@ -134,7 +137,14 @@ function register_user($fname, $lname, $email, $pwdhash)
     //echo "<br> in register function: "; var_dump($result);
 
     $dbh=null;
-    return result;
+    return $result;
+    $dbh = null;    
+    }
+
+ catch (PDOException $e) {
+    print "Error!: " . $e->getMessage() . "<br/>";
+    die();
+    }
     
 }
 
@@ -151,9 +161,9 @@ function get_user_balance($userid) {
 }
 
 function buy_shares($userid, $symbol, $pp, $qty) {
-    $price=$pp*$qty*100; //in cents
-    if($_SESSION['wallet']<($price)){
-        echo "Balance is less than what is being bought";
+    $price=$pp*$qty; //in cents
+    if(($_SESSION['wallet'])<($price)){
+        //echo "Balance is less than what is being bought";
         return false;
     }
     //echo " in the buy share function $userid $symbol $pp $qty <br>";
@@ -165,13 +175,13 @@ function buy_shares($userid, $symbol, $pp, $qty) {
     $buy->bindParam(':qty', $qty);
     $buy->bindParam(':userid', $userid);
     $result=$buy->execute();
-    
+    //echo $result.'<br>boutght <br>';
     if($result){
         $update=$dbh->prepare("UPDATE userid 
         SET QUANTITY=QUANTITY-:cost WHERE ID = :userid");
         $update->bindParam(':cost', $price);
         $update->bindParam(':userid', $userid);
-
+        //echo $upresult.'<br>balance updated<br>';
         $upresult=$update->execute();
             if($upresult)
                 $dbh->commit();
@@ -182,7 +192,7 @@ function buy_shares($userid, $symbol, $pp, $qty) {
         $dbh->rollback;
     
     $dbh=null;
-    return result;
+    return $result;
     
 }
 
@@ -197,7 +207,7 @@ function sell_shares($userid, $id) {
     if($pass){
         $stock=$get_stk->fetch();        
         $share=get_quote_data($stock["SYMBOL"]);  
-        $price=(int)($stock['QTY'])*(int)($share['last_trade']*100);
+        $price=(int)($stock['QTY'])*(int)($share['last_trade']);
         
         var_dump($price);
         $dbh->beginTransaction();
@@ -213,9 +223,9 @@ function sell_shares($userid, $id) {
             $upresult=$update->execute();
             if($upresult){
                 $dbh->commit();
-                echo "share SOLD";
+                //echo "share SOLD";
                 $dbh=null;
-                var_dump($upresult);
+                //var_dump($upresult);
                 return $upresult;
             }
             else {

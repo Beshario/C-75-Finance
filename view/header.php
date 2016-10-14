@@ -36,18 +36,24 @@
         </ul>
       
       <ul class="nav navbar-nav navbar-right">
-          
-        <form class="navbar-form navbar-left" method="POST" action="index.php?page=login" id="login">
+          <? if (isset($_SESSION['userid'])){ echo $userid;?>
+               <li style="text-transform: capitalize;"><a href="#">Hi: <?= $_SESSION['fname'].' '.$_SESSION[lname] ?></a></li>
+               <li><a href="#">Wallet: <?= $_SESSION['wallet'];?>$</a></li>
+        </ul>
+                  
+          <? } else { echo $userid; ?>
+        <form style="display=none" class="navbar-form navbar-left" method="POST" action="index.php?page=login" id="login"  >
         <div class="form-group">
         	<input type="text" class="form-control" placeholder="User Email" name="email" data-toggle="tooltip" data-placement="bottom" title="please provide email as :##@##.##">
         	<input class="form-control" placeholder="Password" type="password" name="password">
         </div> 
         <button type="submit" class="btn btn-default">Sign In</button>
       </form>
-          
-      </ul>
+          </ul>
+            <? } ?>
       
-    </div>
+      
+    
     <!-- /.navbar-collapse -->
   </div>
   <!-- /.container-fluid -->

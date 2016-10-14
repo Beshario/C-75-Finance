@@ -24,8 +24,9 @@ if (isset($_SESSION['userid']) &&
     $pp=$_POST['pp'];
     //echo "$userid $symbol $qty <br>";
     $result= buy_shares($userid, $symbol, $pp, $qty);
-    if(result)
+    if($esult)
         print "share bought!!!";
+        $_SESSION['wallet']=get_user_balance($userid);
     require ("portfolio.php");
 }
 

@@ -9,7 +9,7 @@ render('header', array('title' => 'C$75 Marketplace'));
   <div class="row">
     <div class="col-xs-12 col-sm-offset-6 col-sm-6 col-md-5 col-md-offset-7 col-lg-4 col-lg-offset-8">
         
-      <form method="POST" action="index.php?page=register" id="register">
+      <form method="post" action="index.php?page=register" id="register">
           <!--//onsubmit java script function... -->
         <div class="form-group">
           

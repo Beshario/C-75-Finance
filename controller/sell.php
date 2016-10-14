@@ -20,8 +20,8 @@ if (isset($_SESSION['userid']) &&
     $id=(int)$_POST['transaction'];
     
     $result=sell_shares($userid, $id);
-    
-    echo $id;
+    $_SESSION['wallet']=get_user_balance($userid);
+    //echo $id;
     
     require ("portfolio.php");
     

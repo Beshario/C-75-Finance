@@ -24,7 +24,7 @@ if (isset($_SESSION['userid']))
         $price=array('PRICE'=> $share["last_trade"]);
         $holdings[$x]= $holdings[$x]+$price;
     }
-   // print_r($holdings);
+    //print_r($holdings);
 	render('portfolio', array('holdings' => $holdings));
 }
 else

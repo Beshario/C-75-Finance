@@ -14,20 +14,22 @@ require_once(helper);
 
 if (isset($_POST['fname']) &&
 	isset($_POST['lname']) &&
-   isset($_POST['email']) &&
+   isset($_POST['Email']) &&
    isset($_POST['password']))
 {
+    echo 'we got the names';
 	$fname = $_POST['fname'];
     $lname = $_POST['lname'];
 	$email = $_POST['Email'];
 	$password = $_POST['password'];
+    echo 'we got the names'.$fname.$lname.$email.$password;
 	$pwdhash = $password; // hash("SHA1", $password); //trying with no hashing first
-    $result=register_user($fnmae, $lname, $email, $pwdhash);
-    //echo "<br> passed variable from register: "; var_dump($result);
+    $result=register_user($fname, $lname, $email, $pwdhash);
+    echo "<br> passed variable from registerer: "; var_dump($result);
 	if ($result)
     {
         $userid = login_user($email, $pwdhash);
-        echo 'registerred'; //show it in temporary 
+        echo '<br>registerred :'.$userid; //show it in temporary 
     }
 	if ($userid > 0)
 	{
@@ -41,6 +43,7 @@ if (isset($_POST['fname']) &&
 }
 else
 {
+    echo 'we didnt get the details';
 	render('login');
 }
 ?>

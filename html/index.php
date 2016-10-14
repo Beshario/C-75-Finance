@@ -20,7 +20,9 @@ define('html', '../html');
 define('helper', '../includes/helper.php');
 
 if (isset($_GET["page"]))
-	$page = $_GET["page"];
+{$page = $_GET["page"];
+//echo 'hi we got the page and its: '.$page.'<br>';
+}
 else
 	$page = "home";
 
