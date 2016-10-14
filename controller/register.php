@@ -23,8 +23,8 @@ if (isset($_POST['fname']) &&
 	$password = $_POST['password'];
 	$pwdhash = $password; // hash("SHA1", $password); //trying with no hashing first
     $result=register_user($fnmae, $lname, $email, $pwdhash);
-    echo "<br> passed variable from register: "; var_dump($result);
-	if ($result))
+    //echo "<br> passed variable from register: "; var_dump($result);
+	if ($result)
     {
         $userid = login_user($email, $pwdhash);
         echo 'registerred'; //show it in temporary 
@@ -36,7 +36,7 @@ if (isset($_POST['fname']) &&
 	}
 	else
 	{
-		render('pwdhash',array('Registr Error' => $pwdhash));
+		render('pwdhash',array('Register Error' => $pwdhash));
 	}
 }
 else

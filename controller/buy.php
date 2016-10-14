@@ -1,7 +1,7 @@
 <?php
 
 /*******************
- * register.php
+ * buy.php
  *
  * CSCI S-75 2016
  * Project 1
@@ -16,18 +16,20 @@ if (isset($_SESSION['userid']) &&
 	isset($_REQUEST['param']) &&
    isset($_POST['qty']) &&
    isset($_POST['pp'])){
+   // echo "we are in the buy controller";
     $userid=$_SESSION['userid'];
     $symbol=$_REQUEST['param'];
     $qty=$_POST['qty'];
-    $symbol=$_POST['pp'];
-    result= buy_shares($userid, $symbol, $pp, $qty, &$error);
-
+    $symbol=$_POST['param'];
+    $pp=$_POST['pp'];
+    //echo "$userid $symbol $qty <br>";
+    $result= buy_shares($userid, $symbol, $pp, $qty);
+    if(result)
+        print "share bought!!!";
+    require ("portfolio.php");
 }
 
 else
 	render('login');
-
-?>
-
 
 ?>

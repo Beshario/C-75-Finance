@@ -13,8 +13,9 @@ require_once('../includes/helper.php');?>
 if (!isset($quote_data["symbol"]))
 {
     // No quote data
-    render('header', array('title' => 'Quote'));
-    print "No symbol was provided, or no quote data was found.";
+    render('header', array('title' => 'Quote')); ?>
+<div class="alert alert-warning"><strong>Warning!</strong> No symbol was provided, or no quote data was found.</div>
+<?
 }
 else
 {
@@ -37,8 +38,8 @@ else
             <td><input name="qty" type="number" max="1000" min="1"></input></td>
         </tr>
     </table>
-    <input type="hidden" name="pp" value="<?= htmlspecialchars($quote_data["last_trade"])?>">
-    <input type="hidden" name="param" value="<?= htmlspecialchars($quote_data["symbol"]) ?>">
+    <input type="hidden" name="pp" value="<?= htmlspecialchars($quote_data["last_trade"]);?>">
+    <input type="hidden" name="param" value="<?= htmlspecialchars($quote_data["symbol"]); ?>">
     <button type="submit" class="btn btn-success"><b>BUY</b></button>
 </form>
 

@@ -66,15 +66,15 @@ function login_user($email, $password)
 /*
  * get_user_shares() - Get portfolio for specified userid
  *
- * @param int $userid
+ * @param int $userid*/
  
 function get_user_shares($userid)
 {
 	// connect to database with PDO
-	$dbh =  opencon()
+	require('opencon.php');
 	
 	// get user's portfolio
-	$stmt = $dbh->prepare("SELECT symbol, shares FROM portfolios WHERE userid=:userid");
+	$stmt = $dbh->prepare("SELECT ID, SYMBOL, QTY, PP FROM Stock WHERE USER_ID=:userid");
 	$stmt->bindValue(':userid', $userid, PDO::PARAM_STR);
 	if ($stmt->execute())
 	{
@@ -83,6 +83,7 @@ function get_user_shares($userid)
 			array_push($result, $row);
 	    }
 		$dbh = null;
+        //print_r($result);
 		return $result;
 	}
 	
@@ -138,24 +139,102 @@ function register_user($fname, $lname, $email, $pwdhash)
 }
 
 
-function get_user_balance($userid) { }
+function get_user_balance($userid) { 
+ require('opencon.php');
+    $get = $dbh->prepare("SELECT QUANTITY FROM userid WHERE userid.ID = :id_of_user");
+    $get->bindparam(':id_of_user', $userid);
+    $pass=$get->execute();
+    $balance = $get->fetch();
+    //var_dump($balance);
+    $dbh=null;
+    return $balance[QUANTITY];
+}
 
-function buy_shares($userid, $symbol, $pp, $qty, &$error) {
-    if($_SESSION['wallet']<($pp*$qty)){
-        $error="Balance is less than what is being bought";
+function buy_shares($userid, $symbol, $pp, $qty) {
+    $price=$pp*$qty*100; //in cents
+    if($_SESSION['wallet']<($price)){
+        echo "Balance is less than what is being bought";
         return false;
     }
+    //echo " in the buy share function $userid $symbol $pp $qty <br>";
     require('opencon.php');
-    $buy = $dbh->prepare("INSERT INTO Stock ( SYMBOL , PP ,  QTY , USERID ) VALUES (:symbol,:pp,:qty,userid)");
-    
+    $dbh->beginTransaction();
+    $buy = $dbh->prepare("INSERT INTO Stock ( SYMBOL , PP ,  QTY , USER_ID ) VALUES (:symbol,:pp,:qty, :userid)");
     $buy->bindParam(':symbol', $symbol );
     $buy->bindParam(':pp', $pp);
     $buy->bindParam(':qty', $qty);
     $buy->bindParam(':userid', $userid);
+    $result=$buy->execute();
     
-    $result=$add->execute();
+    if($result){
+        $update=$dbh->prepare("UPDATE userid 
+        SET QUANTITY=QUANTITY-:cost WHERE ID = :userid");
+        $update->bindParam(':cost', $price);
+        $update->bindParam(':userid', $userid);
+
+        $upresult=$update->execute();
+            if($upresult)
+                $dbh->commit();
+            else
+                $dbh->rollback;
+    }
+    else
+        $dbh->rollback;
+    
+    $dbh=null;
     return result;
     
 }
 
-function sell_shares($userid, $symbol, &$error) { }
+function sell_shares($userid, $id) { 
+    require('opencon.php');
+    $get_stk=$dbh->prepare("SELECT QTY, SYMBOL FROM Stock WHERE ID=:id and USER_ID=:userid");
+    $get_stk->bindParam(':id', $id);
+    $get_stk->bindParam(':userid', $userid);
+    $pass=$get_stk->execute();
+    
+    //var_dump($pass);
+    if($pass){
+        $stock=$get_stk->fetch();        
+        $share=get_quote_data($stock["SYMBOL"]);  
+        $price=(int)($stock['QTY'])*(int)($share['last_trade']*100);
+        
+        var_dump($price);
+        $dbh->beginTransaction();
+        $sell = $dbh->prepare("DELETE FROM Stock WHERE ID = :id AND USER_ID = :userid");
+        $sell->bindParam(':id', $id);
+        $sell->bindParam(':userid', $userid);
+        $result=$sell->execute();
+        if($result){
+            $update=$dbh->prepare("UPDATE userid 
+            SET QUANTITY=QUANTITY+:price WHERE ID = :userid");
+            $update->bindParam(':price', $price);
+            $update->bindParam(':userid', $userid);
+            $upresult=$update->execute();
+            if($upresult){
+                $dbh->commit();
+                echo "share SOLD";
+                $dbh=null;
+                var_dump($upresult);
+                return $upresult;
+            }
+            else {
+                $dbh->rollback;
+                $dbh=null;
+                return $upresult;
+            } 
+        }
+        else {
+            $dbh->rollback;
+            $dbh=null;
+            return $result;
+        }
+        
+        
+    }
+    else{
+        $dbh->rollback;
+        $dbh=null;
+        return $pass;
+    }
+}

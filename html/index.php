@@ -1,5 +1,6 @@
 <?php 
 
+session_start();
 /*********************
  * index.php
  *
@@ -9,7 +10,6 @@
  *
  * Dispatcher for MVC
  *********************/
-session_start();
 error_reporting(E_ERROR | E_WARNING | E_PARSE);
 
 define('APP_FOLDER','');
@@ -28,7 +28,7 @@ $path = __DIR__ . '/../controller/' . $page . '.php';
 if (file_exists($path))
 	require($path);
 
-
+ 
 
 
 //require(C . "controller.php");
