@@ -27,7 +27,7 @@ if (isset($_POST['fname']) &&
 	if ($result))
     {
         $userid = login_user($email, $pwdhash);
-        echo 'registerred';
+        echo 'registerred'; //show it in temporary 
     }
 	if ($userid > 0)
 	{

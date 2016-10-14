@@ -41,13 +41,20 @@ function login_user($email, $password)
 	
 	// verify email and password pair
 	$userid = 0;
-	$query = sprintf("SELECT ID FROM userid WHERE LOWER(EMAIL)='%s' AND PASSHASH='%s'",strtolower($email),$pwdhash);
+	$query = sprintf("SELECT * FROM userid WHERE LOWER(EMAIL)='%s' AND PASSHASH='%s'",strtolower($email),$pwdhash);
 	$resource = mysql_query($query);
 	if ($resource)
 	{
 		$row = mysql_fetch_row($resource);
 		if (isset($row[0]))
+        {
+            print_r($row);
 			$userid = $row[0];
+            $_SESSION['fname']=$row[2];
+            $_SESSION['lname']=$row[3];
+            $_SESSION['wallet']=$row[4];
+            
+        }
 	}
 	
 
@@ -115,13 +122,13 @@ function register_user($fname, $lname, $email, $pwdhash)
 {
     //if it exists (write code)
    require('opencon.php');
-   echo "<br> checking for connection: "; var_dump($dbh);
+   //echo "<br> checking for connection: "; var_dump($dbh);
    $add = $dbh->prepare("INSERT INTO userid (FNAME , LNAME , EMAIL ,  QUANTITY , PASSHASH ) VALUES (:fname,:lname,:em,'10000',:pass)");
     $add->bindParam(':fname', $fname);
     $add->bindParam(':lname', $lname);
     $add->bindParam(':em', $email);
     $add->bindParam(':pass', $pwdhash);
-    echo "<br>   name: "; var_dump($dbh);
+    //echo "<br>   name: "; var_dump($dbh);
     $result=$add->execute();
     //echo "<br> in register function: "; var_dump($result);
 
@@ -133,6 +140,22 @@ function register_user($fname, $lname, $email, $pwdhash)
 
 function get_user_balance($userid) { }
 
-function buy_shares($userid, $symbol, $shares, &$error) { }
+function buy_shares($userid, $symbol, $pp, $qty, &$error) {
+    if($_SESSION['wallet']<($pp*$qty)){
+        $error="Balance is less than what is being bought";
+        return false;
+    }
+    require('opencon.php');
+    $buy = $dbh->prepare("INSERT INTO Stock ( SYMBOL , PP ,  QTY , USERID ) VALUES (:symbol,:pp,:qty,userid)");
+    
+    $buy->bindParam(':symbol', $symbol );
+    $buy->bindParam(':pp', $pp);
+    $buy->bindParam(':qty', $qty);
+    $buy->bindParam(':userid', $userid);
+    
+    $result=$add->execute();
+    return result;
+    
+}
 
 function sell_shares($userid, $symbol, &$error) { }
