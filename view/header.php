@@ -25,7 +25,8 @@
     <div class="navbar-header">
     
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#topFixedNavbar1" aria-expanded="false"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
-      <a class="navbar-brand" href="index.php">CS75 Market Place</a></div>
+      <a class="navbar-brand" href="index.php">CS75 Market Place</a>
+      </div>
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="topFixedNavbar1" style="max-width:1200px; align-content:center">
       <ul class="nav navbar-nav">
@@ -33,11 +34,13 @@
           
           
         <li <?= $_GET["page"]=="portfolio" ? 'class="active"' : ''; ?>><a href="index.php?page=portfolio">Portfolio</a></li>
+        <li><a href="#" data-toggle="modal" data-target="#myModal">About the Project</a></li>
+        <li> <a href="../../../index.php#portfolio">Back to Portfolio</a></li>
         </ul>
       
       <ul class="nav navbar-nav navbar-right">
           <? if (isset($_SESSION['userid'])){ echo $userid;?>
-               <li style="text-transform: capitalize;"><a href="#">Hi: <?= $_SESSION['fname'].' '.$_SESSION[lname] ?></a></li>
+               <li style="text-transform: capitalize;"><a href="#">Hi: <?= $_SESSION['fname'].' '.$_SESSION['lname'] ?></a></li>
                <li><a href="#">Wallet: <?= $_SESSION['wallet'];?>$</a></li>
         </ul>
                   
@@ -56,5 +59,52 @@
     
     <!-- /.navbar-collapse -->
   </div>
+	</div>
   <!-- /.container-fluid -->
 </nav>
+
+
+
+
+
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">About This Project</h4>
+      </div>
+      <div class="modal-body">
+This project is part of an online audited course: BUILDING DYNAMIC WEBSITES by Harvard University
+	  
+		  <h4>PROBLEM</h4>
+The mission for this project is to implement C$ Finance , a website that allows users to manage portfolios of stocks.<br><br>
+
+The site’s homepage must require user login and also allow to register for an account. It should allow user to get a quote for a stock by providing its symbol. It should allow user to buy and sell shares of a stock. It should allow to check the current value of his or her portfolio.<br><br>
+
+		 
+
+
+		  <large>TECHNOLOGIES USED</large>
+		  <ul>
+			  <li>HTML &nsub; CSS</li>
+			  <li>php</li>
+			  <li>SQL - MySQL (phpMyAdmin)</li>	
+			  <li>Javascript</li>
+			  <li>Bootstrap</li>
+		  </ul>
+
+
+   
+   
+   
+    <h5>If you would like to know more about the specifications of school project, please click <a href="http://cdn.cs75.net/2012/summer/projects/1/project1.pdf" target="_blank">HERE</a> </h5>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -40,7 +40,10 @@ else
     </table>
     <input type="hidden" name="pp" value="<?= htmlspecialchars($quote_data["last_trade"]);?>">
     <input type="hidden" name="param" value="<?= htmlspecialchars($quote_data["symbol"]); ?>">
-    <button type="submit" class="btn btn-success"><b>BUY</b></button>
+    <button type="submit" class="btn btn-success"<?= (!isset($_SESSION['userid']))? 'disabled="disabled" ><b>BUY</b></button><br> You must register to buy shares':'><b>BUY</b></button>'; ?>
+    
+    
+
 </form>
 
 <?php

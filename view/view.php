@@ -4,7 +4,7 @@
 
 
 <?php
-include('header-content.php');
+include('header.php');
 include('register.php');
 include('footer.php');
 

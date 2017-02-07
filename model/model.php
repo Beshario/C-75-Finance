@@ -11,9 +11,9 @@
 
 // database credentials
 define('DB_HOST', 'localhost');
-define('DB_USER', 'root');
+define('DB_USER', 'beshari_jamal');
 define('DB_PASSWORD', 'FSLHGGI14!');
-define('DB_DATABASE', 'cs75finance');
+define('DB_DATABASE', 'beshari_cs75finance');
 
 /*
  * login_user() - Verify account credentials and create session
@@ -48,7 +48,7 @@ function login_user($email, $password)
 		$row = mysql_fetch_row($resource);
 		if (isset($row[0]))
         {
-            print_r($row);
+            //print_r($row);
 			$userid = $row[0];
             $_SESSION['fname']=$row[1];
             $_SESSION['lname']=$row[2];

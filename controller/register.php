@@ -17,15 +17,15 @@ if (isset($_POST['fname']) &&
    isset($_POST['Email']) &&
    isset($_POST['password']))
 {
-    echo 'we got the names';
+    //echo 'we got the names';
 	$fname = $_POST['fname'];
     $lname = $_POST['lname'];
 	$email = $_POST['Email'];
 	$password = $_POST['password'];
-    echo 'we got the names'.$fname.$lname.$email.$password;
+    //echo 'we got the names'.$fname.$lname.$email.$password;
 	$pwdhash = $password; // hash("SHA1", $password); //trying with no hashing first
     $result=register_user($fname, $lname, $email, $pwdhash);
-    echo "<br> passed variable from registerer: "; var_dump($result);
+    //echo "<br> passed variable from registerer: "; var_dump($result);
 	if ($result)
     {
         $userid = login_user($email, $pwdhash);
@@ -43,7 +43,7 @@ if (isset($_POST['fname']) &&
 }
 else
 {
-    echo 'we didnt get the details';
+    echo 'we didnt get the full details';
 	render('login');
 }
 ?>
