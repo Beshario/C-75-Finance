@@ -1,4 +1,4 @@
-#C7$-Finance
+# C7$-Finance
 
 ## INTRODUCTION
 This project is part of an audited online course I used to teach myself Web Development. The course is: [Building Dynamic Websites](http://cs75.tv/2012/summer/) by Harvard University
