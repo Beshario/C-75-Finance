@@ -22,6 +22,7 @@ The detailed specifications are specified [HERE](http://cdn.cs75.net/2012/summer
    
 ![1](https://pro2-bar-s3-cdn-cf6.myportfolio.com/2f8130c4f42d2cd607ed05630331d80c/7d7bcbdc-3fce-48c4-bdf2-1652ce2ca493_rw_600.jpeg?h=20030f30c727cdda4b8cfe988a563d75)
 ![2](https://pro2-bar-s3-cdn-cf1.myportfolio.com/2f8130c4f42d2cd607ed05630331d80c/cfd5748a-13fe-4416-bf97-1cd157797765_rw_600.jpeg?h=91e4c2f0df67ae2e527aeffb19ec74df)
+
 ![3](https://pro2-bar-s3-cdn-cf4.myportfolio.com/2f8130c4f42d2cd607ed05630331d80c/f0503463-dd37-405a-b449-903545d6b2ab_rw_600.jpeg?h=11d701008d147bf6647b78abb42dc86c)
 
 ## TECHNOLOGIES USED
